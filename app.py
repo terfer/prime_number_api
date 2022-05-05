@@ -36,8 +36,8 @@ def calculate_num_prime():
 
 @app.route('/get_primes', methods=['GET'])
 def get_prime_numbers():
-    db = load(open(f'data/list.data', 'r'))
-    data = db.read()
+    db = open(f'data/list.data', 'r')
+    data = load(db.read())
     db.close()
     return data
 
