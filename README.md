@@ -9,9 +9,11 @@ http://your-ip:20044/queue
 
 Body of request - JSON:
 
+```json
 {
     "num_calc": 5
 }
+```
 
 Return:
 
@@ -21,8 +23,10 @@ GET HTTP
 
 http://your-ip:20044/get_primes
 
+```python
 1
 2
 3
 5
 7
+```
