@@ -9,9 +9,9 @@ path = 'data/list.data'
 try:
     open(path, 'r').readlines()[-1]
 except OSError:
-    db = open(path, 'w')
-    db.write("1")
-    db.close()
+    data_file = open(path, 'w', encoding="utf-8")
+    data_file.write("1")
+    data_file.close()
 
 
 def is_prime(num: int):
@@ -27,12 +27,12 @@ def calculate_num_prime():
     """API method to set how many prime numbers have to calculate"""
     if not request.json or not 'num_calc' in request.json:
         abort(400)
-    with open(path, 'r') as data_file:
+    with open(path, 'r', encoding="utf-8") as data_file:
         first_number_calculated, data_new = int(
             data_file.readlines()[-1]), len(data_file.read())
     number_calculations = int(request.json['num_calc']) + data_new
     first_number_calculated += 1
-    with open(path, 'a') as data_file:
+    with open(path, 'a', encoding="utf-8") as data_file:
         while data_new < number_calculations:
             if is_prime(first_number_calculated):
                 data_file.write("\n")
@@ -45,7 +45,7 @@ def calculate_num_prime():
 @app.route('/get_primes', methods=['GET'])
 def get_prime_numbers():
     """API method to get all prime numbers calculated before"""
-    with open(path, 'r') as data_file:
+    with open(path, 'r', encoding="utf-8") as data_file:
         data = str(data_file.read())
     return data
 
