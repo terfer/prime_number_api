@@ -1,41 +1,52 @@
+"""Flask module for the API"""
 from flask import Flask, request, abort
 
 app = Flask(__name__)
 
-try:
-    open(f'data/list.data', 'r').readlines()[-1]
-except:
-    db = open('data/list.data', 'w')
-    db.write("1")
-    db.close()
+DATA_PATH = 'data/list.data'
 
-def esPrimo(num: int):
+try:
+    with open(DATA_PATH, 'r', encoding="utf-8") as first_data_load:
+        print(first_data_load.readlines()[-1])
+except OSError:
+    with open(DATA_PATH, 'w', encoding="utf-8") as first_data_load:
+        first_data_load.write("1")
+
+
+def is_prime(num: int):
+    """Function to calculate num prime numbers"""
     for i in range(2, int(num/2)+1):
-        if ((num % i) == 0)  & (num != i):
+        if ((num % i) == 0) & (num != i):
             return False
     return True
 
+
 @app.route('/queue', methods=['POST'])
 def calculate_num_prime():
-    first_number_calculated = int(open(f'data/list.data', 'r').readlines()[-1])
-    data_new = len(open(f'data/list.data', 'r').read())
-    db = open(f'data/list.data', 'a')
-    first_number_calculated += 1
+    """API method to set how many prime numbers have to calculate"""
     if not request.json or not 'num_calc' in request.json:
         abort(400)
+    with open(DATA_PATH, 'r', encoding="utf-8") as data_file:
+        first_number_calculated, data_new = int(
+            data_file.readlines()[-1]), len(data_file.read())
     number_calculations = int(request.json['num_calc']) + data_new
-    while data_new < number_calculations:
-        if esPrimo(first_number_calculated):
-            db.write("\n")
-            db.write(str(first_number_calculated))
-            data_new += 1
-        first_number_calculated += 1
-    db.close()
+    first_number_calculated += 1
+    with open(DATA_PATH, 'a', encoding="utf-8") as data_file:
+        while data_new < number_calculations:
+            if is_prime(first_number_calculated):
+                data_file.write("\n")
+                data_file.write(str(first_number_calculated))
+                data_new += 1
+            first_number_calculated += 1
     return "Success"
+
 
 @app.route('/get_primes', methods=['GET'])
 def get_prime_numbers():
-    db = open(f'data/list.data', 'r')
-    return str(db.read())
+    """API method to get all prime numbers calculated before"""
+    with open(DATA_PATH, 'r', encoding="utf-8") as data_file:
+        data = str(data_file.read())
+    return data
+
 
 app.run(host='localhost', port=20044, debug=False)
