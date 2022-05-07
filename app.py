@@ -9,11 +9,13 @@ except:
     db.write("1")
     db.close()
 
+
 def esPrimo(num: int):
     for i in range(2, int(num/2)+1):
-        if ((num % i) == 0)  & (num != i):
+        if ((num % i) == 0) & (num != i):
             return False
     return True
+
 
 @app.route('/queue', methods=['POST'])
 def calculate_num_prime():
@@ -33,9 +35,11 @@ def calculate_num_prime():
     db.close()
     return "Success"
 
+
 @app.route('/get_primes', methods=['GET'])
 def get_prime_numbers():
     db = open(f'data/list.data', 'r')
     return str(db.read())
+
 
 app.run(host='localhost', port=20044, debug=False)
