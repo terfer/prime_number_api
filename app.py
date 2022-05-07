@@ -6,11 +6,11 @@ app = Flask(__name__)
 DATA_PATH = 'data/list.data'
 
 try:
-    open(DATA_PATH, 'r', encoding="utf-8").readlines()[-1]
+    with open(DATA_PATH, 'r', encoding="utf-8") as first_data_load:
+        first_data_load.readlines()[-1]
 except OSError:
-    first_data_load = open(DATA_PATH, 'w', encoding="utf-8")
-    first_data_load.write("1")
-    first_data_load.close()
+    with open(DATA_PATH, 'w', encoding="utf-8") as first_data_load:
+        first_data_load.write("1")
 
 
 def is_prime(num: int):
