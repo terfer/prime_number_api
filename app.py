@@ -7,7 +7,7 @@ DATA_PATH = 'data/list.data'
 
 try:
     with open(DATA_PATH, 'r', encoding="utf-8") as first_data_load:
-        first_data_load.readlines()[-1]
+        print(first_data_load.readlines()[-1])
 except OSError:
     with open(DATA_PATH, 'w', encoding="utf-8") as first_data_load:
         first_data_load.write("1")
