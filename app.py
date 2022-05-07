@@ -1,5 +1,4 @@
 from flask import Flask, request, abort
-from json import load
 
 app = Flask(__name__)
 
@@ -36,7 +35,7 @@ def calculate_num_prime():
 
 @app.route('/get_primes', methods=['GET'])
 def get_prime_numbers():
-    db = load(open(f'data/list.data', 'r'))
-    return db
+    db = open(f'data/list.data', 'r')
+    return str(db.read())
 
 app.run(host='localhost', port=20044, debug=False)
