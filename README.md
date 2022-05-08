@@ -1,3 +1,5 @@
+![Build package](https://github.com/terfer/prime_number_api/workflows/Pylint/badge.svg)
+
 # Prime Number API
 API for requesting computed primes and queuing prime number computations.
 
